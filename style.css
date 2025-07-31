@@ -12,8 +12,8 @@ body {
 }
 
 #calculator {
-  height: 640px;
-  width: 400px;
+  height: 480px;
+  width: 320px;
 
   display: flex;
   flex-direction: column;
@@ -24,11 +24,26 @@ body {
 }
 
 #display {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   flex: 1;
 
   border: 2px solid darkgrey;
   border-radius: 8px;
   margin: 4px 4px 8px;
+  padding: 8px;
+  text-align: right;
+}
+
+#current-result {
+  font-size: 16px;
+  color: grey;
+}
+
+#expression {
+  font-size: 48px;
 }
 
 #buttons {
@@ -36,22 +51,35 @@ body {
   justify-content: space-between;
 
   flex: 4;
+  padding: 4px;
+  gap: 8px;
 }
 
-#numbers {
-  flex: 3;
-
+#numbers,
+#operations {
   display: flex;
   flex-direction: column;
 }
 
+#numbers {
+  flex: 3;
+}
+
 .numbers-row {
   display: flex;
+
   flex: 1;
 }
 
 #operations {
   flex: 1;
+}
+
+.operations-column {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
 }
 
 button {
