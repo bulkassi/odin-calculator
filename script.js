@@ -1,3 +1,6 @@
+const display = document.querySelector("#display");
+const currentExpression = display.querySelector("#expression");
+
 function add(a, b) {
   return a + b;
 }
@@ -15,9 +18,9 @@ function divide(a, b) {
 }
 
 let operation = {
-  firstOperand: "",
-  operator: "",
-  secondOperand: "",
+  firstOperand: "45",
+  operator: "+",
+  secondOperand: "20",
 };
 
 function perform(operation) {
@@ -32,3 +35,10 @@ function perform(operation) {
       return divide(+operation.firstOperand, +operation.secondOperand);
   }
 }
+
+function populateDisplay(operation) {
+  currentExpression.textContent =
+    operation.firstOperand + operation.operator + operation.secondOperand;
+}
+
+populateDisplay(operation);
