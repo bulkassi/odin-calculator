@@ -8,13 +8,25 @@ numberButtons.addEventListener("click", function handleNumberPress(e) {
   const numberPressed = e.target.id.at(-1);
 
   if (currentExpression.textContent === "0") {
+    // The number cannot start with 0
     currentExpression.textContent = numberPressed;
     operation.firstOperand = numberPressed;
   } else {
     if (operation.operator === "") {
+      // The first operand is being typed
       operation.firstOperand += numberPressed;
     } else {
-      operation.secondOperand += numberPressed;
+      // The second operand is being typed
+      if (operation.secondOperand === "0") {
+        // The number cannot start with 0
+        currentExpression.textContent = currentExpression.textContent.slice(
+          0,
+          -1
+        );
+        operation.secondOperand = numberPressed;
+      } else {
+        operation.secondOperand += numberPressed;
+      }
     }
     currentExpression.textContent += numberPressed;
   }
@@ -26,11 +38,13 @@ operatorButtons.addEventListener("click", function handleOperatorPress(e) {
   const operatorPressed = e.target.textContent;
 
   if (operatorPressed === "C") {
+    // The cancel button is pressed
     currentExpression.textContent = "0";
     operation.firstOperand = "";
     operation.operator = "";
     operation.secondOperand = "";
   } else {
+    // One of the operation's button is pressed
     if (operation.secondOperand != "") {
       populateDisplay(operation);
       operation.firstOperand = perform(operation).toString();
@@ -84,5 +98,6 @@ function perform(operation) {
 }
 
 function populateDisplay(operation) {
+  // Round the result up to three decimals to show on display
   currentExpression.textContent = Math.round(perform(operation) * 1000) / 1000;
 }
