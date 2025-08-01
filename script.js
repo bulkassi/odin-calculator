@@ -25,17 +25,24 @@ numberButtons.addEventListener("click", function handleNumberPress(e) {
 operatorButtons.addEventListener("click", function handleOperatorPress(e) {
   const operatorPressed = e.target.textContent;
 
-  if (operation.secondOperand != "") {
-    populateDisplay(operation);
-    operation.firstOperand = perform(operation).toString();
-    operation.secondOperand = "";
-  }
-
-  if (operatorPressed != "=") {
-    currentExpression.textContent += operatorPressed;
-    operation.operator = operatorPressed;
-  } else {
+  if (operatorPressed === "C") {
+    currentExpression.textContent = "0";
+    operation.firstOperand = "";
     operation.operator = "";
+    operation.secondOperand = "";
+  } else {
+    if (operation.secondOperand != "") {
+      populateDisplay(operation);
+      operation.firstOperand = perform(operation).toString();
+      operation.secondOperand = "";
+    }
+
+    if (operatorPressed != "=") {
+      currentExpression.textContent += operatorPressed;
+      operation.operator = operatorPressed;
+    } else {
+      operation.operator = "";
+    }
   }
 
   console.log(operation);
