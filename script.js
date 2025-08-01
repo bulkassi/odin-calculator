@@ -4,6 +4,8 @@ const currentExpression = display.querySelector("#expression");
 const numberButtons = document.querySelector("#numbers");
 const operatorButtons = document.querySelector("#operations");
 
+let displayingResult = false;
+
 function clearDisplay() {
   currentExpression.textContent = "0";
   operation.firstOperand = "";
@@ -15,6 +17,11 @@ numberButtons.addEventListener("click", function handleNumberPress(e) {
   const numberPressed = e.target.id.at(-1);
 
   if (currentExpression.textContent != "Error") {
+    if (displayingResult) {
+      clearDisplay();
+      displayingResult = false;
+    }
+
     if (currentExpression.textContent === "0") {
       // The number cannot start with 0
       currentExpression.textContent = numberPressed;
@@ -66,6 +73,7 @@ operatorButtons.addEventListener("click", function handleOperatorPress(e) {
       currentExpression.textContent += operatorPressed;
       operation.operator = operatorPressed;
     } else {
+      displayingResult = true;
       operation.operator = "";
     }
   }
