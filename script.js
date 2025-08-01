@@ -72,6 +72,11 @@ operatorButtons.addEventListener("click", function handleOperatorPress(e) {
           operation.firstOperand = perform(operation).toString();
           operation.secondOperand = "";
         }
+      } else if (operation.firstOperand != "" && operation.operator != "") {
+        currentExpression.textContent = currentExpression.textContent.slice(
+          0,
+          -1
+        );
       }
 
       if (operatorPressed != "=") {
