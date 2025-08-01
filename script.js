@@ -1,6 +1,46 @@
 const display = document.querySelector("#display");
 const currentExpression = display.querySelector("#expression");
 
+const numberButtons = document.querySelector("#numbers");
+const operatorButtons = document.querySelector("#operations");
+
+numberButtons.addEventListener("click", function handleNumberPress(e) {
+  const numberPressed = e.target.id.at(-1);
+
+  if (currentExpression.textContent === "0") {
+    currentExpression.textContent = numberPressed;
+    operation.firstOperand = numberPressed;
+  } else {
+    if (operation.operator === "") {
+      operation.firstOperand += numberPressed;
+    } else {
+      operation.secondOperand += numberPressed;
+    }
+    currentExpression.textContent += numberPressed;
+  }
+
+  console.log(operation);
+});
+
+operatorButtons.addEventListener("click", function handleOperatorPress(e) {
+  const operatorPressed = e.target.textContent;
+
+  if (operation.secondOperand != "") {
+    populateDisplay(operation);
+    operation.firstOperand = perform(operation).toString();
+    operation.secondOperand = "";
+  }
+
+  if (operatorPressed != "=") {
+    currentExpression.textContent += operatorPressed;
+    operation.operator = operatorPressed;
+  } else {
+    operation.operator = "";
+  }
+
+  console.log(operation);
+});
+
 function add(a, b) {
   return a + b;
 }
@@ -18,9 +58,9 @@ function divide(a, b) {
 }
 
 let operation = {
-  firstOperand: "45",
-  operator: "+",
-  secondOperand: "20",
+  firstOperand: "",
+  operator: "",
+  secondOperand: "",
 };
 
 function perform(operation) {
@@ -29,7 +69,7 @@ function perform(operation) {
       return add(+operation.firstOperand, +operation.secondOperand);
     case "-":
       return subtract(+operation.firstOperand, +operation.secondOperand);
-    case "*":
+    case "x":
       return multiply(+operation.firstOperand, +operation.secondOperand);
     case "/":
       return divide(+operation.firstOperand, +operation.secondOperand);
@@ -37,8 +77,5 @@ function perform(operation) {
 }
 
 function populateDisplay(operation) {
-  currentExpression.textContent =
-    operation.firstOperand + operation.operator + operation.secondOperand;
+  currentExpression.textContent = perform(operation);
 }
-
-populateDisplay(operation);
