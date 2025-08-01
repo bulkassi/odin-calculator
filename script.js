@@ -14,71 +14,77 @@ function clearDisplay() {
 }
 
 numberButtons.addEventListener("click", function handleNumberPress(e) {
-  const numberPressed = e.target.id.at(-1);
+  if (e.target.className == "number-button") {
+    // The number button is actually being pressed
 
-  if (currentExpression.textContent != "Error") {
-    if (displayingResult) {
-      clearDisplay();
-      displayingResult = false;
-    }
+    const numberPressed = e.target.id.at(-1);
 
-    if (currentExpression.textContent === "0") {
-      // The number cannot start with 0
-      currentExpression.textContent = numberPressed;
-      operation.firstOperand = numberPressed;
-    } else {
-      if (operation.operator === "") {
-        // The first operand is being typed
-        operation.firstOperand += numberPressed;
-      } else {
-        // The second operand is being typed
-        if (operation.secondOperand === "0") {
-          // The number cannot start with 0
-          currentExpression.textContent = currentExpression.textContent.slice(
-            0,
-            -1
-          );
-          operation.secondOperand = numberPressed;
-        } else {
-          operation.secondOperand += numberPressed;
-        }
+    if (currentExpression.textContent != "Error") {
+      if (displayingResult) {
+        clearDisplay();
+        displayingResult = false;
       }
-      currentExpression.textContent += numberPressed;
-    }
-  }
 
-  console.log(operation);
+      if (currentExpression.textContent === "0") {
+        // The number cannot start with 0
+        currentExpression.textContent = numberPressed;
+        operation.firstOperand = numberPressed;
+      } else {
+        if (operation.operator === "") {
+          // The first operand is being typed
+          operation.firstOperand += numberPressed;
+        } else {
+          // The second operand is being typed
+          if (operation.secondOperand === "0") {
+            // The number cannot start with 0
+            currentExpression.textContent = currentExpression.textContent.slice(
+              0,
+              -1
+            );
+            operation.secondOperand = numberPressed;
+          } else {
+            operation.secondOperand += numberPressed;
+          }
+        }
+        currentExpression.textContent += numberPressed;
+      }
+    }
+
+    console.log(operation);
+  }
 });
 
 operatorButtons.addEventListener("click", function handleOperatorPress(e) {
-  const operatorPressed = e.target.textContent;
+  if (e.target.className == "operation-button") {
+    const operatorPressed = e.target.textContent;
 
-  if (operatorPressed === "C") {
-    clearDisplay();
-  } else if (currentExpression.textContent != "Error") {
-    // One of the operation's button is pressed
-    if (operation.secondOperand != "") {
-      // Check for the operation causing error
-      if (!isFinite(perform(operation))) {
-        clearDisplay();
-        currentExpression.textContent = "Error";
+    if (operatorPressed === "C") {
+      clearDisplay();
+    } else if (currentExpression.textContent != "Error") {
+      // One of the operation's button is pressed
+      if (operation.secondOperand != "") {
+        // Check for the operation causing error
+        if (!isFinite(perform(operation))) {
+          clearDisplay();
+          currentExpression.textContent = "Error";
+        } else {
+          populateDisplay(operation);
+          operation.firstOperand = perform(operation).toString();
+          operation.secondOperand = "";
+        }
+      }
+
+      if (operatorPressed != "=") {
+        currentExpression.textContent += operatorPressed;
+        operation.operator = operatorPressed;
       } else {
-        populateDisplay(operation);
-        operation.firstOperand = perform(operation).toString();
-        operation.secondOperand = "";
+        displayingResult = true;
+        operation.operator = "";
       }
     }
 
-    if (operatorPressed != "=") {
-      currentExpression.textContent += operatorPressed;
-      operation.operator = operatorPressed;
-    } else {
-      displayingResult = true;
-      operation.operator = "";
-    }
+    console.log(operation);
   }
-
-  console.log(operation);
 });
 
 function add(a, b) {
