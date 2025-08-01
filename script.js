@@ -77,5 +77,5 @@ function perform(operation) {
 }
 
 function populateDisplay(operation) {
-  currentExpression.textContent = perform(operation);
+  currentExpression.textContent = Math.round(perform(operation) * 1000) / 1000;
 }
