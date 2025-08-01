@@ -57,6 +57,7 @@ numberButtons.addEventListener("click", function handleNumberPress(e) {
 operatorButtons.addEventListener("click", function handleOperatorPress(e) {
   if (e.target.className == "operation-button") {
     const operatorPressed = e.target.textContent;
+    displayingResult = false;
 
     if (operatorPressed === "C") {
       clearDisplay();
